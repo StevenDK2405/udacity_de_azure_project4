@@ -58,7 +58,7 @@ We will connect our **Azure pipelines** to this very Github repo and submit the 
 <img src="/img/1.Create Resources/Upload_dirhistoryfiles.png" title="files uploaded to dirhistoryfiles"  width="700">
 
 
-2. Create an **Azure Data Factory** Resource. For this, run *commands\datafactory.ps1*
+2. Create an **Azure Data Factory** Resource.
 <img src="/img/1.Create Resources/Create_ADF_1.png" title="factory"  width="700">
 <img src="/img/1.Create Resources/Create_ADF_2.png" title="factory"  width="700">
 
@@ -79,8 +79,8 @@ We will connect our **Azure pipelines** to this very Github repo and submit the 
 
 ## Step 2: Create Linked Services
 - Because of the Udacity account provided to me does not permit the creation of a dedicated SQL pool, so I am utilizing Synapse's SQL serverless with an external table. Within SQL serverless, data is stored in Data Lake Gen 2 storage as files (CSV files in this project). Consequently, when creating a linked service to Synapse, it is not directly established with Synapse or the SQL pool, but rather with Synapse's Data Lake Gen 2. The pipeline flow will proceed as follows:
-Nycpayrolls-ADLS DataLake -> SQL server -> Synapse DataLake
-Synapse DataLake -> Aggregation Steps  -> Synapse DataLake
+    - Nycpayrolls-ADLS DataLake -> SQL server -> Synapse DataLake
+    - Synapse DataLake -> Aggregation Steps  -> Synapse DataLake
 
 <img src="/img/2.Linked Services/LinkedServices.png" title="factory"  width="700">
 
