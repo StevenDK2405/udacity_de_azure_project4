@@ -1,0 +1,32 @@
+{
+	"name": "ds_synapse_agency_md",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Synapse_LinkedService",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "payroll_agency_md.csv",
+				"fileSystem": "data"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "AgencyID",
+				"type": "String"
+			},
+			{
+				"name": "AgencyName",
+				"type": "String"
+			}
+		]
+	}
+}
