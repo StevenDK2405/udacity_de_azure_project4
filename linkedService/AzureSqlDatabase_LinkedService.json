@@ -1,0 +1,12 @@
+{
+	"name": "AzureSqlDatabase_LinkedService",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureSqlDatabase",
+		"typeProperties": {
+			"connectionString": "integrated security=False;encrypt=True;connection timeout=30;data source=project4-db.database.windows.net;initial catalog=project4-db;user id=sqldbadmin",
+			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkRBVEFGQUNUT1JZQEYwMEY3NTI4LTQ0MTEtNEMxQi04N0E5LTc2NURFMzVENjk2N180NjU5ZTI0ZC0zMGI4LTQ4YjktYTk3ZS1lMDAwODMxZWU2MzQiDQp9"
+		}
+	}
+}
