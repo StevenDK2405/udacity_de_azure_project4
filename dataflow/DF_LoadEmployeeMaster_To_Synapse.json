@@ -1,0 +1,51 @@
+{
+	"name": "DF_LoadEmployeeMaster_To_Synapse",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ds_adls_employee_md",
+						"type": "DatasetReference"
+					},
+					"name": "SourceAdlsEmployeeMd"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ds_synapse_employee_md",
+						"type": "DatasetReference"
+					},
+					"name": "SinkSynapseEmployeeMd"
+				}
+			],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          EmployeeID as string,",
+				"          LastName as string,",
+				"          FirstName as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> SourceAdlsEmployeeMd",
+				"SourceAdlsEmployeeMd sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          EmployeeID as string,",
+				"          LastName as string,",
+				"          FirstName as string",
+				"     ),",
+				"     partitionFileNames:['payroll_emp_md.csv'],",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> SinkSynapseEmployeeMd"
+			]
+		}
+	}
+}

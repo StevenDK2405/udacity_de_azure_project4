@@ -1,0 +1,122 @@
+{
+	"name": "DF_Aggregate_Data",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ds_synapse_payroll_data",
+						"type": "DatasetReference"
+					},
+					"name": "SourceSQLDBPayrollData"
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_adls_payroll_2020",
+						"type": "DatasetReference"
+					},
+					"name": "Source2020PayrollData"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ds_synapse_nycpayroll_summary",
+						"type": "DatasetReference"
+					},
+					"name": "SinkAggregate"
+				}
+			],
+			"transformations": [
+				{
+					"name": "Union"
+				},
+				{
+					"name": "FilterFiscalYear",
+					"description": "Filter Fiscal Year"
+				},
+				{
+					"name": "TotalPaid",
+					"description": "Add \"RegularGrossPaid\", \"TotalOTPaid\", \"TotalOtherPay\""
+				},
+				{
+					"name": "Aggregate"
+				}
+			],
+			"scriptLines": [
+				"parameters{",
+				"     dataflow_param_fiscalyear as integer (2020)",
+				"}",
+				"source(output(",
+				"          FiscalYear as string,",
+				"          PayrollNumber as string,",
+				"          AgencyID as string,",
+				"          AgencyName as string,",
+				"          EmployeeID as string,",
+				"          LastName as string,",
+				"          FirstName as string,",
+				"          AgencyStartDate as string,",
+				"          WorkLocationBorough as string,",
+				"          TitleCode as string,",
+				"          TitleDescription as string,",
+				"          LeaveStatusasofJune30 as string,",
+				"          BaseSalary as string,",
+				"          PayBasis as string,",
+				"          RegularHours as string,",
+				"          RegularGrossPaid as string,",
+				"          OTHours as string,",
+				"          TotalOTPaid as string,",
+				"          TotalOtherPay as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> SourceSQLDBPayrollData",
+				"source(output(",
+				"          FiscalYear as string,",
+				"          PayrollNumber as string,",
+				"          AgencyID as string,",
+				"          AgencyName as string,",
+				"          EmployeeID as string,",
+				"          LastName as string,",
+				"          FirstName as string,",
+				"          AgencyStartDate as string,",
+				"          WorkLocationBorough as string,",
+				"          TitleCode as string,",
+				"          TitleDescription as string,",
+				"          LeaveStatusasofJune30 as string,",
+				"          BaseSalary as string,",
+				"          PayBasis as string,",
+				"          RegularHours as string,",
+				"          RegularGrossPaid as string,",
+				"          OTHours as string,",
+				"          TotalOTPaid as string,",
+				"          TotalOtherPay as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> Source2020PayrollData",
+				"SourceSQLDBPayrollData, Source2020PayrollData union(byName: false)~> Union",
+				"Union filter(toInteger(FiscalYear) >= $dataflow_param_fiscalyear) ~> FilterFiscalYear",
+				"FilterFiscalYear derive(TotalPaid = toFloat(RegularGrossPaid) + toFloat(TotalOTPaid) + toFloat(TotalOtherPay)) ~> TotalPaid",
+				"TotalPaid aggregate(groupBy(AgencyName,",
+				"          FiscalYear),",
+				"     TotalPaid = sum(TotalPaid)) ~> Aggregate",
+				"Aggregate sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          FiscalYear as string,",
+				"          AgencyName as string,",
+				"          TotalPaid as string",
+				"     ),",
+				"     partitionFileNames:['nycpayroll_summary.csv'],",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> SinkAggregate"
+			]
+		}
+	}
+}
