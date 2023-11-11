@@ -11,9 +11,21 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'AzureDataLakeStorage_LinkedService'"
 		},
+		"AzureSqlDatabase_LinkedService_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabase_LinkedService'"
+		},
+		"Synapse_LinkedService_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'Synapse_LinkedService'"
+		},
 		"AzureDataLakeStorage_LinkedService_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://nycpayrollproject4adls.dfs.core.windows.net/"
+		},
+		"Synapse_LinkedService_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://synapsepayrolladls.dfs.core.windows.net/"
 		},
 		"containerUri": {
 			"type": "string",
@@ -45,8 +57,17 @@
 					"AzureDataLakeStorage_LinkedService_accountKey": {
 						"value": "[parameters('AzureDataLakeStorage_LinkedService_accountKey')]"
 					},
+					"AzureSqlDatabase_LinkedService_connectionString": {
+						"value": "[parameters('AzureSqlDatabase_LinkedService_connectionString')]"
+					},
+					"Synapse_LinkedService_accountKey": {
+						"value": "[parameters('Synapse_LinkedService_accountKey')]"
+					},
 					"AzureDataLakeStorage_LinkedService_properties_typeProperties_url": {
 						"value": "[parameters('AzureDataLakeStorage_LinkedService_properties_typeProperties_url')]"
+					},
+					"Synapse_LinkedService_properties_typeProperties_url": {
+						"value": "[parameters('Synapse_LinkedService_properties_typeProperties_url')]"
 					}
 				}
 			},

@@ -8,8 +8,17 @@
 		"AzureDataLakeStorage_LinkedService_accountKey": {
 			"value": ""
 		},
+		"AzureSqlDatabase_LinkedService_connectionString": {
+			"value": ""
+		},
+		"Synapse_LinkedService_accountKey": {
+			"value": ""
+		},
 		"AzureDataLakeStorage_LinkedService_properties_typeProperties_url": {
 			"value": "https://nycpayrollproject4adls.dfs.core.windows.net/"
+		},
+		"Synapse_LinkedService_properties_typeProperties_url": {
+			"value": "https://synapsepayrolladls.dfs.core.windows.net/"
 		},
 		"containerUri": {
 			"value": ""
